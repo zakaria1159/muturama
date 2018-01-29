@@ -115,7 +115,7 @@
                                 animation: google.maps.Animation.BOUNCE,
                                 map: map,
                                 title: 'Je suis ici',
-                                icon: iconBase + 'parking_lot_maps.png'	
+                             //   icon: iconBase + 'parking_lot_maps.png'	
                               });
                     	 }, function() {
                        //      handleLocationError(true, infoWindow, map.getCenter());
@@ -136,7 +136,10 @@
                             for (var i = 0; i < markers.length; i++) {
                                 var m = markers[i];
                                 var loc = new google.maps.LatLng(m.lat, m.lon);
-                                var mm = new google.maps.Marker({position: loc, map: map, animation: google.maps.Animation.DROP, title: m.nom + " || " + m.address});
+                               
+                                
+                                var mm = new google.maps.Marker({position: loc,icon: iconBase + 'parking_lot_maps.png', map: map, animation: google.maps.Animation.DROP, title: m.nom + " || " + m.address + " || " + m.agentville});
+                                	
 
                                 currentMarkers.push(mm);
                                 google.maps.event.addListener(mm,'click',function() {

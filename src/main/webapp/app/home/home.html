@@ -13,6 +13,35 @@
                     You are logged in as user "{{vm.account.login}}".
                 </div>
                 <!--  
+                  <div class="alert alert-success" ng-switch-when="true" name = ville ng-repeat="ville in vm.cities">
+                   "{{ville.nom}}".
+                </div>
+                -->
+                
+                <div class="table-responsive">
+        <table class="jh-table table table-striped">
+            <thead>
+                <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.transition()">
+                    <th jh-sort-by="nom"><span data-translate="muturamaApp.ville.nom">Nom</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="region"><span data-translate="muturamaApp.ville.region">Region</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="codepostal"><span data-translate="muturamaApp.ville.codepostal">Codepostal</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="ville in vm.cities track by ville.id">
+                    
+                    <td>{{ville.nom}}</td>
+                    <td>{{ville.region}}</td>
+                    <td>{{ville.codepostal}}</td>
+                    <td class="text-right">
+
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+                <!--  
                 <div class="alert alert-warning" ng-switch-when="false"
                      data-translate="global.messages.info.authenticated" translate-compile>
                     If you want to <a class="alert-link" href="" ng-click="vm.login()">sign in</a>, you can try the
@@ -42,7 +71,7 @@
             -->
 
             <!-- search/go to current location -->
-            <!--  
+           <!--  
             <div class="text-right">
 
                 <div class="input-append text-right">
@@ -52,7 +81,7 @@
                                 ng-options="ville as ville.nom for ville in vm.cities track by ville.id">
                             <option value="">Choisir votre ville</option>
                         </select>
-                    </div>
+                    </div>  
 <!--  
                     <div class="form-group col-sm-4">
                         <select class="form-control" id="field_city" name="ville"
@@ -65,8 +94,9 @@
                     </div>
                     
                     -->
+                 
 
-                    
+                  
                         
                         <button class=" btn" type="button" ng-click="gotoCurrentLocation(); getAgentsListBycity(vm.agent.agentville)"
                                 title="current location">
@@ -74,7 +104,10 @@
                         </button>
                 </div>
             </div>
+           
         </div>
+      
+        
     </div>
 
 
@@ -82,7 +115,7 @@
 
     <!-- map -->
 
-    <app-map style="height:600px;margin:12px;box-shadow:0 3px 25px black;"
+    <app-map style="height:300px;margin:12px;"
              center="loc"
              markers="agents"
     >
@@ -91,15 +124,18 @@
         /* Always set the map height explicitly to define the size of the div
          * element that contains the map. */
         #map {
-            height: 100%;
+            height: 50%;
         }
         /* Optional: Makes the sample page fill the window. */
         html, body {
-            height: 100%;
+            height: 50%;
             margin: 0;
             padding: 0;
         }
     </style>
+    
+     
+    
+    
 
 
-</div>
