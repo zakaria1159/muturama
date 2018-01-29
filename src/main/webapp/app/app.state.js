@@ -57,7 +57,7 @@
                         // get map options
                         var options =
                             {
-                                center: new google.maps.LatLng(33, -6),
+                                center: new google.maps.LatLng(23, 90),
                                 zoom: 10,
                                 mapTypeId: "roadmap"
                             };
@@ -102,11 +102,33 @@
 
                     // update map markers to match scope marker collection
                     function updateMarkers() {
+                    	var pos;
+                    	var actualmarker;
+                    	var iconBase = 'https://maps.google.com/mapfiles/kml/shapes/';
+                    	navigator.geolocation.getCurrentPosition(function(position) {
+                            pos = {
+                              lat: position.coords.latitude,
+                              lng: position.coords.longitude
+                            };
+                            actualmarker = new google.maps.Marker({
+                                position: pos,
+                                animation: google.maps.Animation.BOUNCE,
+                                map: map,
+                                title: 'Je suis ici',
+                                icon: iconBase + 'parking_lot_maps.png'	
+                              });
+                    	 }, function() {
+                       //      handleLocationError(true, infoWindow, map.getCenter());
+                           });
+                    	var myLatLng = {lat: 33, lng: -6.99};
                         if (map && scope.markers) {
                             // create new markers
 
 
                             currentMarkers = [];
+                            
+                          
+                            currentMarkers.push(actualmarker);
                             var markers = scope.markers;
                             if (angular.isString(markers)) markers = scope.$eval(scope.markers);
                             var infoWindow = new google.maps.InfoWindow();
@@ -119,7 +141,7 @@
                                 currentMarkers.push(mm);
                                 google.maps.event.addListener(mm,'click',function() {
                                     map.setZoom(13);
-                                    map.setCenter(mm.getPosition());
+                                  //  map.setCenter(mm.getPosition());
                                 });
 
                                 /*google.maps.event.addListener(mm,'click',function() {
@@ -149,7 +171,7 @@
 
                     // convert current location to Google maps location
                     function getLocation(loc) {
-                        if (loc == null) return new google.maps.LatLng(33, -6);
+                        if (loc == null) return new google.maps.LatLng(23, 90);
                         if (angular.isString(loc)) loc = scope.$eval(loc);
                         return new google.maps.LatLng(loc.lat, loc.lon);
 

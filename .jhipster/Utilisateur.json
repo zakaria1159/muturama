@@ -1,0 +1,28 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipName": "utilisateuruser",
+            "otherEntityName": "user",
+            "relationshipType": "one-to-one",
+            "otherEntityField": "login",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "utilisateur"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "datedenaissance",
+            "fieldType": "LocalDate",
+            "fieldValidateRules": [
+                "required"
+            ]
+        }
+    ],
+    "changelogDate": "20180129122210",
+    "dto": "no",
+    "service": "no",
+    "entityTableName": "utilisateur",
+    "jpaMetamodelFiltering": false,
+    "pagination": "pagination"
+}
