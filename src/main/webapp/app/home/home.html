@@ -41,14 +41,15 @@
             -->
 
             <!-- search/go to current location -->
+            <!--  
             <div class="text-right">
 
                 <div class="input-append text-right">
                     <div class="form-group col-sm-3">
-                        <select class="form-control" id="field_city" name="city" ng-model="vm.agent.agentvilel"
+                        <select class="form-control" id="field_city" name="ville" ng-model="vm.agent.agentvilel"
                                 ng-change="getAgentsListBycity(vm.agent.agentville)"
                                 ng-options="ville as ville.nom for ville in vm.cities track by ville.id">
-                            <option value="">Select City</option>
+                            <option value="">Choisir votre ville</option>
                         </select>
                     </div>
 <!--  
@@ -64,19 +65,12 @@
                     
                     -->
 
-                    <!--<div class="form-group col-sm-3">
-                        <input class="form-control" type="text" ng-model="search"
-                        placeholder="Enter custom Latitude Lognitude"
-                        />
-                    </div>
-                        <button class=" btn" type="button" ng-click="geoCode()" ng-disabled="search.length == 0"
-                                title="search">
-                            &nbsp;<i class="icon-search"></i>Where is this place?
-                        </button>
-                        <button class=" btn" type="button" ng-click="gotoCurrentLocation()"
+                    
+                        
+                        <button class=" btn" type="button" ng-click="gotoCurrentLocation(); getAgentsListBycity(vm.agent.agentville)"
                                 title="current location">
-                            &nbsp;<i class="icon-home"></i>Where am I now?
-                        </button>-->
+                            &nbsp;<i class="icon-home"></i>Chercher les agents
+                        </button>
                 </div>
             </div>
         </div>

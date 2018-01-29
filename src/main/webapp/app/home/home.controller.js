@@ -106,7 +106,7 @@
             if (select != null) {
                 angular.forEach(agent, function (results) {
                     //console.log(dlContCatSet.dlContTypeSet);
-                    if (select.id == results.agentville.id && results.status == true) {
+                    if (select.id == results.ville.id && results.status == true) {
                         $scope.agents.push(results);
                     }
                 });
