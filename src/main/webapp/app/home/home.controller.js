@@ -41,6 +41,7 @@
     function HomeController ($scope, Principal, LoginService, $state, Agent, Ville) {
         var vm = this;
         vm.cities = Ville.query();
+        vm.lesagents = Agent.query();
         vm.account = null;
         vm.isAuthenticated = null;
         vm.login = LoginService.open;
