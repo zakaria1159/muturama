@@ -57,8 +57,8 @@
                         // get map options
                         var options =
                             {
-                                center: new google.maps.LatLng(23, 90),
-                                zoom: 7,
+                                center: new google.maps.LatLng(33, -6),
+                                zoom: 10,
                                 mapTypeId: "roadmap"
                             };
                         if (scope.center) options.center = getLocation(scope.center);
@@ -149,7 +149,7 @@
 
                     // convert current location to Google maps location
                     function getLocation(loc) {
-                        if (loc == null) return new google.maps.LatLng(23, 90);
+                        if (loc == null) return new google.maps.LatLng(33, -6);
                         if (angular.isString(loc)) loc = scope.$eval(loc);
                         return new google.maps.LatLng(loc.lat, loc.lon);
 
