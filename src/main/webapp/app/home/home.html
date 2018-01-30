@@ -43,14 +43,23 @@
     </div>
     -->
     <div class="row">
-  <div class="col-sm-6 col-md-10" ng-repeat="ville in vm.cities track by ville.id">
-    <div class="thumbnail">
+  <div class="col-md-12" ng-repeat="job in vm.jobs | filter:'java'">
+    <div class="thumbnail" >
     <!--  <a ng-href="http://localhost:8080/#/ville/ville/{{ville.id}}"> <img src="content/images/trucking.png" alt="..."> </a> --> 
       <div class="caption">
-        <h3>{{ville.nom}}</h3>
-        <p>{{ville.region}}</p>
-        <p>{{ville.codepostal}}</p>
-        <p><a ng-href="http://localhost:8080/#/ville/ville/{{ville.id}}" class="btn btn-primary " role="button">lien</a>
+        <h2>{{job.titre}}</h2>
+        <p>{{job.description}}</p>
+        <span class="badge"> {{job.points}} </span>
+        <span class="label label-info">{{job.jobcategorie.titre}}</span>
+      <!--  <p><a ng-href="http://localhost:8080/#/job/job/{{job.id}}" class="btn btn-primary " role="button">Plus</a>  --> 
+           <div class="btn-group flex-btn-group-container">
+                            <button type="submit"
+                                    ui-sref="job-detail({id:job.id})"
+                                    class="btn btn-info btn-sm">
+                                <span class="glyphicon glyphicon-eye-open"></span>
+                                <span class="hidden-sm-down" data-translate="entity.action.view"></span>
+                            </button>
+                        </div>
         
       </div>
     </div>

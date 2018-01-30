@@ -45,6 +45,8 @@ public class CacheConfiguration {
             cm.createCache(com.sobexim.muturamaapp.domain.Ville.class.getName(), jcacheConfiguration);
             cm.createCache(com.sobexim.muturamaapp.domain.Agent.class.getName(), jcacheConfiguration);
             cm.createCache(com.sobexim.muturamaapp.domain.Utilisateur.class.getName(), jcacheConfiguration);
+            cm.createCache(com.sobexim.muturamaapp.domain.Jobcategorie.class.getName(), jcacheConfiguration);
+            cm.createCache(com.sobexim.muturamaapp.domain.Job.class.getName(), jcacheConfiguration);
             // jhipster-needle-ehcache-add-entry
         };
     }

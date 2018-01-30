@@ -36,12 +36,14 @@
         // - Documentation: https://developers.google.com/maps/documentation/
         
 
-    HomeController.$inject = ['$scope', 'Principal', 'LoginService', '$state', 'Agent', 'Ville'];
+    HomeController.$inject = ['$scope', 'Principal', 'LoginService', '$state', 'Agent', 'Ville', 'Job', 'Jobcategorie' ];
 
-    function HomeController ($scope, Principal, LoginService, $state, Agent, Ville) {
+    function HomeController ($scope, Principal, LoginService, $state, Agent, Ville, Job, Jobcategorie) {
         var vm = this;
         vm.cities = Ville.query();
         vm.lesagents = Agent.query();
+        vm.jobs = Job.query();
+        vm.jobcategories = Jobcategorie.query();
         vm.account = null;
         vm.isAuthenticated = null;
         vm.login = LoginService.open;

@@ -1,0 +1,23 @@
+{
+    "muturamaApp": {
+        "jobcategorie" : {
+            "home": {
+                "title": "Jobcategories",
+                "createLabel": "Create a new Jobcategorie",
+                "createOrEditLabel": "Create or edit a Jobcategorie",
+                "search": "Search for Jobcategorie"
+            },
+            "created": "A new Jobcategorie is created with identifier {{ param }}",
+            "updated": "A Jobcategorie is updated with identifier {{ param }}",
+            "deleted": "A Jobcategorie is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Jobcategorie {{ id }}?"
+            },
+            "detail": {
+                "title": "Jobcategorie"
+            },
+            "titre": "Titre",
+            "description": "Description"
+        }
+    }
+}

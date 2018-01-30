@@ -10,6 +10,8 @@
                 "ville": "Ville",
                 "agent": "Agent",
                 "utilisateur": "Utilisateur",
+                "jobcategorie": "Jobcategorie",
+                "job": "Job",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {

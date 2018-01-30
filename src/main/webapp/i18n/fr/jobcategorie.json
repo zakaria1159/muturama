@@ -1,0 +1,23 @@
+{
+    "muturamaApp": {
+        "jobcategorie" : {
+            "home": {
+                "title": "Jobcategories",
+                "createLabel": "Créer un nouveau Jobcategorie",
+                "createOrEditLabel": "Créer ou éditer un Jobcategorie",
+                "search": "Recherche pour Jobcategorie"
+            },
+            "created": "Un nouveau Jobcategorie a été créé avec l'identifiant {{ param }}",
+            "updated": "Le Jobcategorie avec l'identifiant {{ param }} a été mis à jour",
+            "deleted": "Le Jobcategorie avec l'identifiant {{ param }} a été supprimé",
+            "delete": {
+                "question": "Etes-vous certain de vouloir supprimer le Jobcategorie {{ id }} ?"
+            },
+            "detail": {
+                "title": "Jobcategorie"
+            },
+            "titre": "Titre",
+            "description": "Description"
+        }
+    }
+}
