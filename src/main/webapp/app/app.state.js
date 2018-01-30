@@ -198,6 +198,11 @@
                     templateUrl: 'app/layouts/footer/footer.html',
                     controller: 'FooterController',
                     controllerAs: 'vm'
+                },
+                'sidebar@': {
+                    templateUrl: 'app/layouts/sidebar/sidebar.html',
+                    controller: 'sidebarController',
+                    controllerAs: 'vm'
                 }
             },
             resolve: {

@@ -1,4 +1,14 @@
 <div ng-cloak>
+ <app-map style="height:300px;margin:12px;"
+             center="loc"
+             markers="agents"
+    >
+    </app-map>
+    <button class=" btn" type="button" ng-click="gotoCurrentLocation(); getAgentsListBycity(vm.agent.agentville)"
+                                title="current location">
+                            &nbsp;<i class="icon-home"></i>Chercher les agents
+                        </button>
+
     <div class="row">
         <!--<div class="col-md-4">
             <span class="hipster img-responsive img-rounded"></span>
@@ -6,14 +16,14 @@
         <div class="col-md-12">
             <!--<h1 data-translate="home.title">Welcome, Java Hipster!</h1>
             <p class="lead" data-translate="home.subtitle">This is your homepage</p>-->
-
+<!--
             <div ng-switch="vm.isAuthenticated()">
                 <div class="alert alert-success" ng-switch-when="true" data-translate="home.logged.message"
                      translate-values="{username: '{{vm.account.login}}'}">
                     You are logged in as user "{{vm.account.login}}".
                 </div>
                  </div>
-                <!--
+                
                 <div class="table-responsive">
         <table class="jh-table table table-striped">
             <thead>
@@ -42,7 +52,7 @@
     <div class="page-header col-md-12">
   		<h1>Jobs <small>mis en avant</small></h1>
 	</div>
-    <div class="col-md-12" ng-repeat="job in vm.jobs | filter:'featured'| filter:'java'">
+    <div class="col-md-12" ng-repeat="job in vm.jobs | filter:'featured'">
     <div class="thumbnail" >
     <!--  <a ng-href="http://localhost:8080/#/ville/ville/{{ville.id}}"> <img src="content/images/trucking.png" alt="..."> </a> --> 
       <div class="caption">

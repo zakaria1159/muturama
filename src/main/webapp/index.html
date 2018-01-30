@@ -32,15 +32,19 @@
     <![endif]-->
     <page-ribbon></page-ribbon>
     <div ui-view="navbar" ng-cloak></div>
-    <div class="container">
+    <div class="container-fluid">
+    <div class="sidebar" ui-view="sidebar"> </div>
+     <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
         <div class="well" ui-view="content">
-            <!-- Angular views -->
+         
         </div>
 
         <div class="footer" ui-view="footer">
            
         </div>
     </div>
+    </div>
+    
     <noscript>
         <h1>You must enable javascript to view this page.</h1>
     </noscript>
