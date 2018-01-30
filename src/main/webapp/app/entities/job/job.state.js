@@ -127,6 +127,7 @@
                                 titre: null,
                                 points: null,
                                 description: null,
+                                etat: null,
                                 id: null
                             };
                         }

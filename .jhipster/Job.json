@@ -32,6 +32,10 @@
             "fieldValidateRules": [
                 "required"
             ]
+        },
+        {
+            "fieldName": "etat",
+            "fieldType": "String"
         }
     ],
     "changelogDate": "20180129233152",

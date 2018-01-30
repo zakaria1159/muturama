@@ -12,11 +12,7 @@
                      translate-values="{username: '{{vm.account.login}}'}">
                     You are logged in as user "{{vm.account.login}}".
                 </div>
-                 
-                  <div class="alert alert-success" ng-switch-when="true" name = ville ng-repeat="agent in vm.lesagents">
-                   "{{agent.agentville.nom}}".
-                </div>
-                
+                 </div>
                 <!--
                 <div class="table-responsive">
         <table class="jh-table table table-striped">
@@ -43,23 +39,30 @@
     </div>
     -->
     <div class="row">
-  <div class="col-md-12" ng-repeat="job in vm.jobs | filter:'java'">
+    <div class="page-header col-md-12">
+  		<h1>Jobs <small>mis en avant</small></h1>
+	</div>
+    <div class="col-md-12" ng-repeat="job in vm.jobs | filter:'featured'| filter:'java'">
     <div class="thumbnail" >
     <!--  <a ng-href="http://localhost:8080/#/ville/ville/{{ville.id}}"> <img src="content/images/trucking.png" alt="..."> </a> --> 
       <div class="caption">
         <h2>{{job.titre}}</h2>
         <p>{{job.description}}</p>
-        <span class="badge"> {{job.points}} </span>
+        
         <span class="label label-info">{{job.jobcategorie.titre}}</span>
+        <span class="label label-success">{{job.etat}}</span>
       <!--  <p><a ng-href="http://localhost:8080/#/job/job/{{job.id}}" class="btn btn-primary " role="button">Plus</a>  --> 
            <div class="btn-group flex-btn-group-container">
+           
                             <button type="submit"
                                     ui-sref="job-detail({id:job.id})"
                                     class="btn btn-info btn-sm">
                                 <span class="glyphicon glyphicon-eye-open"></span>
                                 <span class="hidden-sm-down" data-translate="entity.action.view"></span>
                             </button>
+                            
                         </div>
+                        <span class="badge"> {{job.points}} </span>
         
       </div>
     </div>
@@ -133,7 +136,7 @@
         </div>
       
         
-    </div>
+
 
 
 

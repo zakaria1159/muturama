@@ -49,6 +49,9 @@ public class JobResourceIntTest {
     private static final String DEFAULT_DESCRIPTION = "AAAAAAAAAA";
     private static final String UPDATED_DESCRIPTION = "BBBBBBBBBB";
 
+    private static final String DEFAULT_ETAT = "AAAAAAAAAA";
+    private static final String UPDATED_ETAT = "BBBBBBBBBB";
+
     @Autowired
     private JobRepository jobRepository;
 
@@ -92,7 +95,8 @@ public class JobResourceIntTest {
         Job job = new Job()
             .titre(DEFAULT_TITRE)
             .points(DEFAULT_POINTS)
-            .description(DEFAULT_DESCRIPTION);
+            .description(DEFAULT_DESCRIPTION)
+            .etat(DEFAULT_ETAT);
         // Add required entity
         Jobcategorie jobcategorie = JobcategorieResourceIntTest.createEntity(em);
         em.persist(jobcategorie);
@@ -125,6 +129,7 @@ public class JobResourceIntTest {
         assertThat(testJob.getTitre()).isEqualTo(DEFAULT_TITRE);
         assertThat(testJob.getPoints()).isEqualTo(DEFAULT_POINTS);
         assertThat(testJob.getDescription()).isEqualTo(DEFAULT_DESCRIPTION);
+        assertThat(testJob.getEtat()).isEqualTo(DEFAULT_ETAT);
 
         // Validate the Job in Elasticsearch
         Job jobEs = jobSearchRepository.findOne(testJob.getId());
@@ -217,7 +222,8 @@ public class JobResourceIntTest {
             .andExpect(jsonPath("$.[*].id").value(hasItem(job.getId().intValue())))
             .andExpect(jsonPath("$.[*].titre").value(hasItem(DEFAULT_TITRE.toString())))
             .andExpect(jsonPath("$.[*].points").value(hasItem(DEFAULT_POINTS)))
-            .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION.toString())));
+            .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION.toString())))
+            .andExpect(jsonPath("$.[*].etat").value(hasItem(DEFAULT_ETAT.toString())));
     }
 
     @Test
@@ -233,7 +239,8 @@ public class JobResourceIntTest {
             .andExpect(jsonPath("$.id").value(job.getId().intValue()))
             .andExpect(jsonPath("$.titre").value(DEFAULT_TITRE.toString()))
             .andExpect(jsonPath("$.points").value(DEFAULT_POINTS))
-            .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION.toString()));
+            .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION.toString()))
+            .andExpect(jsonPath("$.etat").value(DEFAULT_ETAT.toString()));
     }
 
     @Test
@@ -259,7 +266,8 @@ public class JobResourceIntTest {
         updatedJob
             .titre(UPDATED_TITRE)
             .points(UPDATED_POINTS)
-            .description(UPDATED_DESCRIPTION);
+            .description(UPDATED_DESCRIPTION)
+            .etat(UPDATED_ETAT);
 
         restJobMockMvc.perform(put("/api/jobs")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -273,6 +281,7 @@ public class JobResourceIntTest {
         assertThat(testJob.getTitre()).isEqualTo(UPDATED_TITRE);
         assertThat(testJob.getPoints()).isEqualTo(UPDATED_POINTS);
         assertThat(testJob.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
+        assertThat(testJob.getEtat()).isEqualTo(UPDATED_ETAT);
 
         // Validate the Job in Elasticsearch
         Job jobEs = jobSearchRepository.findOne(testJob.getId());
@@ -333,7 +342,8 @@ public class JobResourceIntTest {
             .andExpect(jsonPath("$.[*].id").value(hasItem(job.getId().intValue())))
             .andExpect(jsonPath("$.[*].titre").value(hasItem(DEFAULT_TITRE.toString())))
             .andExpect(jsonPath("$.[*].points").value(hasItem(DEFAULT_POINTS)))
-            .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION.toString())));
+            .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION.toString())))
+            .andExpect(jsonPath("$.[*].etat").value(hasItem(DEFAULT_ETAT.toString())));
     }
 
     @Test

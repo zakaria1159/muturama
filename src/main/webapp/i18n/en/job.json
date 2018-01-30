@@ -19,6 +19,7 @@
             "titre": "Titre",
             "points": "Points",
             "description": "Description",
+            "etat": "Etat",
             "jobcategorie": "Jobcategorie"
         }
     }
