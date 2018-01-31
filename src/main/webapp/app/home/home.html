@@ -1,15 +1,21 @@
 <div ng-cloak>
- <app-map style="height:300px;margin:12px;"
+ 
+   
+
+    <div class="row">
+    <app-map style="height:300px;margin:12px;"
              center="loc"
              markers="agents"
     >
     </app-map>
-    <button class=" btn" type="button" ng-click="gotoCurrentLocation(); getAgentsListBycity(vm.agent.agentville)"
+    <span  class="input-group-btn width-min col-md-12" >
+                          <button class=" btn btn-info" ng-click="gotoCurrentLocation(); getAgentsListBycity(vm.agent.agentville)"
                                 title="current location">
                             &nbsp;<i class="icon-home"></i>Chercher les agents
-                        </button>
-
-    <div class="row">
+                      
+                                <span class="glyphicon glyphicon-search"></span>
+                            </button>  
+                        </span>
         <!--<div class="col-md-4">
             <span class="hipster img-responsive img-rounded"></span>
         </div>-->
@@ -61,6 +67,7 @@
         
         <span class="label label-info">{{job.jobcategorie.titre}}</span>
         <span class="label label-success">{{job.etat}}</span>
+        
       <!--  <p><a ng-href="http://localhost:8080/#/job/job/{{job.id}}" class="btn btn-primary " role="button">Plus</a>  --> 
            <div class="btn-group flex-btn-group-container">
            
@@ -136,10 +143,7 @@
 
                   
                         
-                        <button class=" btn" type="button" ng-click="gotoCurrentLocation(); getAgentsListBycity(vm.agent.agentville)"
-                                title="current location">
-                            &nbsp;<i class="icon-home"></i>Chercher les agents
-                        </button>
+                      
                 </div>
             </div>
            
@@ -153,11 +157,7 @@
 
     <!-- map -->
 
-    <app-map style="height:300px;margin:12px;"
-             center="loc"
-             markers="agents"
-    >
-    </app-map>
+  
  <style>
         /* Always set the map height explicitly to define the size of the div
          * element that contains the map. */

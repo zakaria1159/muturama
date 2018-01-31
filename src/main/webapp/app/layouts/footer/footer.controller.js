@@ -7,9 +7,12 @@
 
 
 
-    HeaderController.$inject = [];
+    HeaderController.$inject = ['Job'];
 
-    function FooterController () {
+    function FooterController (Job) {
+    	var vm =this;
+    	
+    	 vm.jobs = Job.query();
 
 
     }

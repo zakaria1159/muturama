@@ -424,12 +424,12 @@ Fix error field display
 Footer
 ===========================================================================*/
 #myFooter {
-	background-color: #444;
+	background-color: #009688;
 	color:white;
 }
 
 #myFooter .footer-copyright{
-	background-color: #383737;
+	background-color: #FFF;
 	padding-top:3px;
 	padding-bottom:3px;
 	text-align: center;
@@ -546,4 +546,5 @@ Footer
   color: #fff;
   background-color: #009688;
 }
+
 
