@@ -5,15 +5,17 @@
         .module('muturamaApp')
         .controller('SettingsController', SettingsController);
 
-    SettingsController.$inject = ['Principal', 'Auth', 'JhiLanguageService', '$translate'];
+    SettingsController.$inject = ['Principal', 'Auth', 'JhiLanguageService', '$translate','Utilisateur'];
 
-    function SettingsController (Principal, Auth, JhiLanguageService, $translate) {
+    function SettingsController (Principal, Auth, JhiLanguageService, $translate, Utilisateur) {
         var vm = this;
-
+        vm.utilisateurs = Utilisateur.query();
         vm.error = null;
         vm.save = save;
         vm.settingsAccount = null;
         vm.success = null;
+        vm.datePickerOpenStatus = {};
+        vm.openCalendar = openCalendar;
 
         /**
          * Store the "settings account" in a separate variable, and not in the shared "account" variable.
@@ -32,6 +34,12 @@
         Principal.identity().then(function(account) {
             vm.settingsAccount = copyAccount(account);
         });
+        
+        vm.datePickerOpenStatus.datedenaissance = false;
+
+        function openCalendar (date) {
+            vm.datePickerOpenStatus[date] = true;
+        }
 
         function save () {
             Auth.updateAccount(vm.settingsAccount).then(function() {

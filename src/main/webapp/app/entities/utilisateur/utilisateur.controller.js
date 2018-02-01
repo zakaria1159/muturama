@@ -10,7 +10,7 @@
     function UtilisateurController($state, Utilisateur, UtilisateurSearch, ParseLinks, AlertService, paginationConstants, pagingParams) {
 
         var vm = this;
-
+        vm.utilisateur = Utilisateur.query();;
         vm.loadPage = loadPage;
         vm.predicate = pagingParams.predicate;
         vm.reverse = pagingParams.ascending;

@@ -58,7 +58,7 @@
     <div class="page-header col-md-12">
   		<h1>Jobs <small>mis en avant</small></h1>
 	</div>
-    <div class="col-md-12" ng-repeat="job in vm.jobs | filter:'featured'">
+    <div class="col-md-12" ng-repeat="job in vm.jobs | filter: vm.account.login ">
     <div class="thumbnail" >
     <!--  <a ng-href="http://localhost:8080/#/ville/ville/{{ville.id}}"> <img src="content/images/trucking.png" alt="..."> </a> --> 
       <div class="caption">
