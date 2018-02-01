@@ -43,11 +43,11 @@ public class Agent implements Serializable {
     private String address;
 
     @NotNull
-    @Column(name = "lat", precision=10, scale=2, nullable = false)
+    @Column(name = "lat", precision=100, scale=20, nullable = false)
     private BigDecimal lat;
 
     @NotNull
-    @Column(name = "lon", precision=10, scale=2, nullable = false)
+    @Column(name = "lon", precision=100, scale=20, nullable = false)
     private BigDecimal lon;
 
     @NotNull

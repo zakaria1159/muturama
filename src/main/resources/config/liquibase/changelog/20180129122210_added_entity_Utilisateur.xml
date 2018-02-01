@@ -23,7 +23,7 @@
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="datedenaissance" type="date">
-                <constraints nullable="false" />
+                <constraints nullable="true" />
             </column>
             <column name="utilisateuruser_id" type="bigint">
                 <constraints unique="true" nullable="true" />

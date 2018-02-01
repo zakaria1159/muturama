@@ -27,7 +27,7 @@ public class Utilisateur implements Serializable {
     private Long id;
 
     @NotNull
-    @Column(name = "datedenaissance", nullable = false)
+    @Column(name = "datedenaissance", nullable = true)
     private LocalDate datedenaissance;
 
     @OneToOne

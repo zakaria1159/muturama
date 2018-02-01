@@ -5,44 +5,34 @@
         .module('muturamaApp')
         .controller('SidebarController', SidebarController);
     
-    SidebarController.$inject = ['$state', 'Auth', 'Principal', 'ProfileService', 'LoginService', 'Job'];
+    SidebarController.$inject = ['$scope', 'Principal', 'LoginService', '$state', 'Agent', 'Ville', 'Job', 'Jobcategorie'];
 
-    function SidebarController ($state, Auth, Principal, ProfileService, LoginService, Job) {
+    function SidebarController ($scope, Principal, LoginService, $state, Agent, Ville, Job, Jobcategorie) {
     	  var vm = this;
 
     	  
     	    vm.jobs = Job.query();
-        vm.isNavbarCollapsed = true;
-        vm.isAuthenticated = Principal.isAuthenticated;
+    	    vm.account = null;
+            vm.isAuthenticated = null;
+            vm.login = LoginService.open;
+            vm.register = register;
+            $scope.$on('authenticationSuccess', function() {
+                getAccount();
+            });
 
-        ProfileService.getProfileInfo().then(function(response) {
-            vm.inProduction = response.inProduction;
-            vm.swaggerEnabled = response.swaggerEnabled;
-        });
+            getAccount();
 
-        vm.login = login;
-        vm.logout = logout;
-        vm.toggleNavbar = toggleNavbar;
-        vm.collapseNavbar = collapseNavbar;
-        vm.$state = $state;
+            function getAccount() {
+                Principal.identity().then(function(account) {
+                    vm.account = account;
+                    vm.isAuthenticated = Principal.isAuthenticated;
+                });
+            }
+            function register () {
+                $state.go('register');
+            }
+    	    
+       
 
-        function login() {
-            collapseNavbar();
-            LoginService.open();
-        }
-
-        function logout() {
-            collapseNavbar();
-            Auth.logout();
-            $state.go('home');
-        }
-
-        function toggleNavbar() {
-            vm.isNavbarCollapsed = !vm.isNavbarCollapsed;
-        }
-
-        function collapseNavbar() {
-            vm.isNavbarCollapsed = true;
-        }
     }
 })();

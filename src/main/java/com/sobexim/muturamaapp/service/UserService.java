@@ -1,16 +1,15 @@
 package com.sobexim.muturamaapp.service;
 
-import com.sobexim.muturamaapp.domain.Authority;
-import com.sobexim.muturamaapp.domain.User;
-import com.sobexim.muturamaapp.repository.AuthorityRepository;
-import com.sobexim.muturamaapp.config.Constants;
-import com.sobexim.muturamaapp.repository.UserRepository;
-import com.sobexim.muturamaapp.repository.search.UserSearchRepository;
-import com.sobexim.muturamaapp.security.AuthoritiesConstants;
-import com.sobexim.muturamaapp.security.SecurityUtils;
-import com.sobexim.muturamaapp.service.util.RandomUtil;
-import com.sobexim.muturamaapp.service.dto.UserDTO;
-import com.sobexim.muturamaapp.web.rest.vm.ManagedUserVM;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import javax.inject.Inject;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,10 +21,19 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
-import java.util.*;
-import java.util.stream.Collectors;
+import com.sobexim.muturamaapp.config.Constants;
+import com.sobexim.muturamaapp.domain.Authority;
+import com.sobexim.muturamaapp.domain.User;
+import com.sobexim.muturamaapp.domain.Utilisateur;
+import com.sobexim.muturamaapp.repository.AuthorityRepository;
+import com.sobexim.muturamaapp.repository.UserRepository;
+import com.sobexim.muturamaapp.repository.UtilisateurRepository;
+import com.sobexim.muturamaapp.repository.search.UserSearchRepository;
+import com.sobexim.muturamaapp.repository.search.UtilisateurSearchRepository;
+import com.sobexim.muturamaapp.security.AuthoritiesConstants;
+import com.sobexim.muturamaapp.security.SecurityUtils;
+import com.sobexim.muturamaapp.service.dto.UserDTO;
+import com.sobexim.muturamaapp.service.util.RandomUtil;
 
 /**
  * Service class for managing users.
@@ -47,6 +55,11 @@ public class UserService {
     private final UserSearchRepository userSearchRepository;
 
     private final AuthorityRepository authorityRepository;
+    
+    @Inject
+    private UtilisateurRepository utilisateurRepository;
+    @Inject
+    private UtilisateurSearchRepository utilisateurSearchRepository ;
 
     private final CacheManager cacheManager;
 
@@ -121,6 +134,12 @@ public class UserService {
         userRepository.save(newUser);
         userSearchRepository.save(newUser);
         log.debug("Created Information for User: {}", newUser);
+        
+        Utilisateur utilisateur=new Utilisateur();
+        utilisateur.setUtilisateuruser(newUser);
+        utilisateur.setDatedenaissance( LocalDate.now());
+        utilisateurRepository.save(utilisateur);
+        utilisateurSearchRepository.save(utilisateur);
         return newUser;
     }
 
@@ -150,6 +169,11 @@ public class UserService {
         userRepository.save(user);
         userSearchRepository.save(user);
         log.debug("Created Information for User: {}", user);
+        Utilisateur utilisateur=new Utilisateur();
+        utilisateur.setUtilisateuruser(user);
+        utilisateur.setDatedenaissance( LocalDate.now());
+        utilisateurRepository.save(utilisateur);
+        utilisateurSearchRepository.save(utilisateur);
         return user;
     }
 
