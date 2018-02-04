@@ -40,6 +40,9 @@ public class Job implements Serializable {
     @Column(name = "etat")
     private String etat;
 
+    @Column(name = "tempsderealisation")
+    private String tempsderealisation;
+
     @ManyToOne(optional = false)
     @NotNull
     private Jobcategorie jobcategorie;
@@ -105,6 +108,19 @@ public class Job implements Serializable {
         this.etat = etat;
     }
 
+    public String getTempsderealisation() {
+        return tempsderealisation;
+    }
+
+    public Job tempsderealisation(String tempsderealisation) {
+        this.tempsderealisation = tempsderealisation;
+        return this;
+    }
+
+    public void setTempsderealisation(String tempsderealisation) {
+        this.tempsderealisation = tempsderealisation;
+    }
+
     public Jobcategorie getJobcategorie() {
         return jobcategorie;
     }
@@ -147,6 +163,7 @@ public class Job implements Serializable {
             ", points=" + getPoints() +
             ", description='" + getDescription() + "'" +
             ", etat='" + getEtat() + "'" +
+            ", tempsderealisation='" + getTempsderealisation() + "'" +
             "}";
     }
 }

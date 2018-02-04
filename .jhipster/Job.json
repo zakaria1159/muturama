@@ -36,12 +36,16 @@
         {
             "fieldName": "etat",
             "fieldType": "String"
+        },
+        {
+            "fieldName": "tempsderealisation",
+            "fieldType": "String"
         }
     ],
     "changelogDate": "20180129233152",
     "dto": "no",
-    "service": "no",
+    "service": "serviceClass",
     "entityTableName": "job",
-    "jpaMetamodelFiltering": false,
+    "jpaMetamodelFiltering": true,
     "pagination": "pager"
 }

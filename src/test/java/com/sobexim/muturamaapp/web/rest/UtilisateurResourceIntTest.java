@@ -20,6 +20,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Base64Utils;
 
 import javax.persistence.EntityManager;
 import java.time.LocalDate;
@@ -43,6 +44,11 @@ public class UtilisateurResourceIntTest {
 
     private static final LocalDate DEFAULT_DATEDENAISSANCE = LocalDate.ofEpochDay(0L);
     private static final LocalDate UPDATED_DATEDENAISSANCE = LocalDate.now(ZoneId.systemDefault());
+
+    private static final byte[] DEFAULT_AVATAR = TestUtil.createByteArray(1, "0");
+    private static final byte[] UPDATED_AVATAR = TestUtil.createByteArray(2, "1");
+    private static final String DEFAULT_AVATAR_CONTENT_TYPE = "image/jpg";
+    private static final String UPDATED_AVATAR_CONTENT_TYPE = "image/png";
 
     @Autowired
     private UtilisateurRepository utilisateurRepository;
@@ -85,7 +91,9 @@ public class UtilisateurResourceIntTest {
      */
     public static Utilisateur createEntity(EntityManager em) {
         Utilisateur utilisateur = new Utilisateur()
-            .datedenaissance(DEFAULT_DATEDENAISSANCE);
+            .datedenaissance(DEFAULT_DATEDENAISSANCE)
+            .avatar(DEFAULT_AVATAR)
+            .avatarContentType(DEFAULT_AVATAR_CONTENT_TYPE);
         return utilisateur;
     }
 
@@ -111,6 +119,8 @@ public class UtilisateurResourceIntTest {
         assertThat(utilisateurList).hasSize(databaseSizeBeforeCreate + 1);
         Utilisateur testUtilisateur = utilisateurList.get(utilisateurList.size() - 1);
         assertThat(testUtilisateur.getDatedenaissance()).isEqualTo(DEFAULT_DATEDENAISSANCE);
+        assertThat(testUtilisateur.getAvatar()).isEqualTo(DEFAULT_AVATAR);
+        assertThat(testUtilisateur.getAvatarContentType()).isEqualTo(DEFAULT_AVATAR_CONTENT_TYPE);
 
         // Validate the Utilisateur in Elasticsearch
         Utilisateur utilisateurEs = utilisateurSearchRepository.findOne(testUtilisateur.getId());
@@ -165,7 +175,9 @@ public class UtilisateurResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(utilisateur.getId().intValue())))
-            .andExpect(jsonPath("$.[*].datedenaissance").value(hasItem(DEFAULT_DATEDENAISSANCE.toString())));
+            .andExpect(jsonPath("$.[*].datedenaissance").value(hasItem(DEFAULT_DATEDENAISSANCE.toString())))
+            .andExpect(jsonPath("$.[*].avatarContentType").value(hasItem(DEFAULT_AVATAR_CONTENT_TYPE)))
+            .andExpect(jsonPath("$.[*].avatar").value(hasItem(Base64Utils.encodeToString(DEFAULT_AVATAR))));
     }
 
     @Test
@@ -179,7 +191,9 @@ public class UtilisateurResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(utilisateur.getId().intValue()))
-            .andExpect(jsonPath("$.datedenaissance").value(DEFAULT_DATEDENAISSANCE.toString()));
+            .andExpect(jsonPath("$.datedenaissance").value(DEFAULT_DATEDENAISSANCE.toString()))
+            .andExpect(jsonPath("$.avatarContentType").value(DEFAULT_AVATAR_CONTENT_TYPE))
+            .andExpect(jsonPath("$.avatar").value(Base64Utils.encodeToString(DEFAULT_AVATAR)));
     }
 
     @Test
@@ -203,7 +217,9 @@ public class UtilisateurResourceIntTest {
         // Disconnect from session so that the updates on updatedUtilisateur are not directly saved in db
         em.detach(updatedUtilisateur);
         updatedUtilisateur
-            .datedenaissance(UPDATED_DATEDENAISSANCE);
+            .datedenaissance(UPDATED_DATEDENAISSANCE)
+            .avatar(UPDATED_AVATAR)
+            .avatarContentType(UPDATED_AVATAR_CONTENT_TYPE);
 
         restUtilisateurMockMvc.perform(put("/api/utilisateurs")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -215,6 +231,8 @@ public class UtilisateurResourceIntTest {
         assertThat(utilisateurList).hasSize(databaseSizeBeforeUpdate);
         Utilisateur testUtilisateur = utilisateurList.get(utilisateurList.size() - 1);
         assertThat(testUtilisateur.getDatedenaissance()).isEqualTo(UPDATED_DATEDENAISSANCE);
+        assertThat(testUtilisateur.getAvatar()).isEqualTo(UPDATED_AVATAR);
+        assertThat(testUtilisateur.getAvatarContentType()).isEqualTo(UPDATED_AVATAR_CONTENT_TYPE);
 
         // Validate the Utilisateur in Elasticsearch
         Utilisateur utilisateurEs = utilisateurSearchRepository.findOne(testUtilisateur.getId());
@@ -273,7 +291,9 @@ public class UtilisateurResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(utilisateur.getId().intValue())))
-            .andExpect(jsonPath("$.[*].datedenaissance").value(hasItem(DEFAULT_DATEDENAISSANCE.toString())));
+            .andExpect(jsonPath("$.[*].datedenaissance").value(hasItem(DEFAULT_DATEDENAISSANCE.toString())))
+            .andExpect(jsonPath("$.[*].avatarContentType").value(hasItem(DEFAULT_AVATAR_CONTENT_TYPE)))
+            .andExpect(jsonPath("$.[*].avatar").value(hasItem(Base64Utils.encodeToString(DEFAULT_AVATAR))));
     }
 
     @Test

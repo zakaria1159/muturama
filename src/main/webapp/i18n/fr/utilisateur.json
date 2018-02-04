@@ -1,3 +1,4 @@
+
 {
     "muturamaApp": {
         "utilisateur" : {
@@ -17,6 +18,7 @@
                 "title": "Utilisateur"
             },
             "datedenaissance": "Datedenaissance",
+            "avatar": "Avatar",
             "utilisateuruser": "Utilisateuruser"
         }
     }

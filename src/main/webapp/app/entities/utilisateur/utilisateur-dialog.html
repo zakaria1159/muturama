@@ -29,6 +29,28 @@
                 </p>
             </div>
         </div>
+        <div class="form-group" ngf-drop ngf-change="vm.setAvatar($file, vm.utilisateur)" ngf-pattern="'image/*'">
+            <label class="control-label" data-translate="muturamaApp.utilisateur.avatar" for="field_avatar">Avatar</label>
+            <div>
+                <img data-ng-src="{{'data:' + vm.utilisateur.avatarContentType + ';base64,' + vm.utilisateur.avatar}}" style="max-height: 100px;" ng-if="vm.utilisateur.avatar" alt="utilisateur image"/>
+                <div ng-if="vm.utilisateur.avatar" class="help-block clearfix">
+                    <span class="pull-left">{{vm.utilisateur.avatarContentType}}, {{vm.byteSize(vm.utilisateur.avatar)}}</span>
+                    <button type="button" ng-click="vm.utilisateur.avatar=null;vm.utilisateur.avatarContentType=null;"
+                            class="btn btn-default btn-xs pull-right">
+                        <span class="glyphicon glyphicon-remove"></span>
+                    </button>
+                </div>
+                <button type="button" ngf-select class="btn btn-default btn-block"
+                        ngf-change="vm.setAvatar($file, vm.utilisateur)" accept="image/*" data-translate="entity.action.addimage">
+                    Add image
+                </button>
+            </div>
+            <input type="hidden" class="form-control" name="avatar" id="field_avatar"
+                    ng-model="vm.utilisateur.avatar"
+                    />
+            <input type="hidden" class="form-control" name="avatarContentType" id="field_avatarContentType"
+                    ng-model="vm.utilisateur.avatarContentType" />
+        </div>
 
         <div class="form-group">
             <label data-translate="muturamaApp.utilisateur.utilisateuruser" for="field_utilisateuruser">Utilisateuruser</label>

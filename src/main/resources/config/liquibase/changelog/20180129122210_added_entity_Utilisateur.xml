@@ -23,6 +23,13 @@
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="datedenaissance" type="date">
+                <constraints nullable="false" />
+            </column>
+
+            <column name="avatar" type="longblob">
+                <constraints nullable="true" />
+            </column>
+            <column name="avatar_content_type" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
             <column name="utilisateuruser_id" type="bigint">

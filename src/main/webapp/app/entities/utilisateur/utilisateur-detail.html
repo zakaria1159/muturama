@@ -8,6 +8,15 @@
         <dd>
             <span>{{vm.utilisateur.datedenaissance | date:'mediumDate'}}</span>
         </dd>
+        <dt><span data-translate="muturamaApp.utilisateur.avatar">Avatar</span></dt>
+        <dd>
+            <div ng-if="vm.utilisateur.avatar">
+                <a ng-click="vm.openFile(vm.utilisateur.avatarContentType, vm.utilisateur.avatar)">
+                    <img data-ng-src="{{'data:' + vm.utilisateur.avatarContentType + ';base64,' + vm.utilisateur.avatar}}" style="max-width: 100%;" alt="utilisateur image"/>
+                </a>
+                {{vm.utilisateur.avatarContentType}}, {{vm.byteSize(vm.utilisateur.avatar)}}
+            </div>
+        </dd>
         <dt><span data-translate="muturamaApp.utilisateur.utilisateuruser">Utilisateuruser</span></dt>
         <dd>
             {{vm.utilisateur.utilisateuruser.login}}

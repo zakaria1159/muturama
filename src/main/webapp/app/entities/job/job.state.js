@@ -128,6 +128,7 @@
                                 points: null,
                                 description: null,
                                 etat: null,
+                                tempsderealisation: null,
                                 id: null
                             };
                         }

@@ -5,12 +5,12 @@
         .module('muturamaApp')
         .controller('UtilisateurController', UtilisateurController);
 
-    UtilisateurController.$inject = ['$state', 'Utilisateur', 'UtilisateurSearch', 'ParseLinks', 'AlertService', 'paginationConstants', 'pagingParams'];
+    UtilisateurController.$inject = ['$state', 'DataUtils', 'Utilisateur', 'UtilisateurSearch', 'ParseLinks', 'AlertService', 'paginationConstants', 'pagingParams'];
 
-    function UtilisateurController($state, Utilisateur, UtilisateurSearch, ParseLinks, AlertService, paginationConstants, pagingParams) {
+    function UtilisateurController($state, DataUtils, Utilisateur, UtilisateurSearch, ParseLinks, AlertService, paginationConstants, pagingParams) {
 
         var vm = this;
-        vm.utilisateur = Utilisateur.query();;
+
         vm.loadPage = loadPage;
         vm.predicate = pagingParams.predicate;
         vm.reverse = pagingParams.ascending;
@@ -21,6 +21,8 @@
         vm.loadAll = loadAll;
         vm.searchQuery = pagingParams.search;
         vm.currentSearch = pagingParams.search;
+        vm.openFile = DataUtils.openFile;
+        vm.byteSize = DataUtils.byteSize;
 
         loadAll();
 

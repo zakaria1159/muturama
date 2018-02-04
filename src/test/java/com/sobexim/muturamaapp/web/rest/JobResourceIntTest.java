@@ -5,8 +5,11 @@ import com.sobexim.muturamaapp.MuturamaApp;
 import com.sobexim.muturamaapp.domain.Job;
 import com.sobexim.muturamaapp.domain.Jobcategorie;
 import com.sobexim.muturamaapp.repository.JobRepository;
+import com.sobexim.muturamaapp.service.JobService;
 import com.sobexim.muturamaapp.repository.search.JobSearchRepository;
 import com.sobexim.muturamaapp.web.rest.errors.ExceptionTranslator;
+import com.sobexim.muturamaapp.service.dto.JobCriteria;
+import com.sobexim.muturamaapp.service.JobQueryService;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -52,11 +55,20 @@ public class JobResourceIntTest {
     private static final String DEFAULT_ETAT = "AAAAAAAAAA";
     private static final String UPDATED_ETAT = "BBBBBBBBBB";
 
+    private static final String DEFAULT_TEMPSDEREALISATION = "AAAAAAAAAA";
+    private static final String UPDATED_TEMPSDEREALISATION = "BBBBBBBBBB";
+
     @Autowired
     private JobRepository jobRepository;
 
     @Autowired
+    private JobService jobService;
+
+    @Autowired
     private JobSearchRepository jobSearchRepository;
+
+    @Autowired
+    private JobQueryService jobQueryService;
 
     @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
@@ -77,7 +89,7 @@ public class JobResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final JobResource jobResource = new JobResource(jobRepository, jobSearchRepository);
+        final JobResource jobResource = new JobResource(jobService, jobQueryService);
         this.restJobMockMvc = MockMvcBuilders.standaloneSetup(jobResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -96,7 +108,8 @@ public class JobResourceIntTest {
             .titre(DEFAULT_TITRE)
             .points(DEFAULT_POINTS)
             .description(DEFAULT_DESCRIPTION)
-            .etat(DEFAULT_ETAT);
+            .etat(DEFAULT_ETAT)
+            .tempsderealisation(DEFAULT_TEMPSDEREALISATION);
         // Add required entity
         Jobcategorie jobcategorie = JobcategorieResourceIntTest.createEntity(em);
         em.persist(jobcategorie);
@@ -130,6 +143,7 @@ public class JobResourceIntTest {
         assertThat(testJob.getPoints()).isEqualTo(DEFAULT_POINTS);
         assertThat(testJob.getDescription()).isEqualTo(DEFAULT_DESCRIPTION);
         assertThat(testJob.getEtat()).isEqualTo(DEFAULT_ETAT);
+        assertThat(testJob.getTempsderealisation()).isEqualTo(DEFAULT_TEMPSDEREALISATION);
 
         // Validate the Job in Elasticsearch
         Job jobEs = jobSearchRepository.findOne(testJob.getId());
@@ -223,7 +237,8 @@ public class JobResourceIntTest {
             .andExpect(jsonPath("$.[*].titre").value(hasItem(DEFAULT_TITRE.toString())))
             .andExpect(jsonPath("$.[*].points").value(hasItem(DEFAULT_POINTS)))
             .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION.toString())))
-            .andExpect(jsonPath("$.[*].etat").value(hasItem(DEFAULT_ETAT.toString())));
+            .andExpect(jsonPath("$.[*].etat").value(hasItem(DEFAULT_ETAT.toString())))
+            .andExpect(jsonPath("$.[*].tempsderealisation").value(hasItem(DEFAULT_TEMPSDEREALISATION.toString())));
     }
 
     @Test
@@ -240,8 +255,276 @@ public class JobResourceIntTest {
             .andExpect(jsonPath("$.titre").value(DEFAULT_TITRE.toString()))
             .andExpect(jsonPath("$.points").value(DEFAULT_POINTS))
             .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION.toString()))
-            .andExpect(jsonPath("$.etat").value(DEFAULT_ETAT.toString()));
+            .andExpect(jsonPath("$.etat").value(DEFAULT_ETAT.toString()))
+            .andExpect(jsonPath("$.tempsderealisation").value(DEFAULT_TEMPSDEREALISATION.toString()));
     }
+
+    @Test
+    @Transactional
+    public void getAllJobsByTitreIsEqualToSomething() throws Exception {
+        // Initialize the database
+        jobRepository.saveAndFlush(job);
+
+        // Get all the jobList where titre equals to DEFAULT_TITRE
+        defaultJobShouldBeFound("titre.equals=" + DEFAULT_TITRE);
+
+        // Get all the jobList where titre equals to UPDATED_TITRE
+        defaultJobShouldNotBeFound("titre.equals=" + UPDATED_TITRE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllJobsByTitreIsInShouldWork() throws Exception {
+        // Initialize the database
+        jobRepository.saveAndFlush(job);
+
+        // Get all the jobList where titre in DEFAULT_TITRE or UPDATED_TITRE
+        defaultJobShouldBeFound("titre.in=" + DEFAULT_TITRE + "," + UPDATED_TITRE);
+
+        // Get all the jobList where titre equals to UPDATED_TITRE
+        defaultJobShouldNotBeFound("titre.in=" + UPDATED_TITRE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllJobsByTitreIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        jobRepository.saveAndFlush(job);
+
+        // Get all the jobList where titre is not null
+        defaultJobShouldBeFound("titre.specified=true");
+
+        // Get all the jobList where titre is null
+        defaultJobShouldNotBeFound("titre.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllJobsByPointsIsEqualToSomething() throws Exception {
+        // Initialize the database
+        jobRepository.saveAndFlush(job);
+
+        // Get all the jobList where points equals to DEFAULT_POINTS
+        defaultJobShouldBeFound("points.equals=" + DEFAULT_POINTS);
+
+        // Get all the jobList where points equals to UPDATED_POINTS
+        defaultJobShouldNotBeFound("points.equals=" + UPDATED_POINTS);
+    }
+
+    @Test
+    @Transactional
+    public void getAllJobsByPointsIsInShouldWork() throws Exception {
+        // Initialize the database
+        jobRepository.saveAndFlush(job);
+
+        // Get all the jobList where points in DEFAULT_POINTS or UPDATED_POINTS
+        defaultJobShouldBeFound("points.in=" + DEFAULT_POINTS + "," + UPDATED_POINTS);
+
+        // Get all the jobList where points equals to UPDATED_POINTS
+        defaultJobShouldNotBeFound("points.in=" + UPDATED_POINTS);
+    }
+
+    @Test
+    @Transactional
+    public void getAllJobsByPointsIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        jobRepository.saveAndFlush(job);
+
+        // Get all the jobList where points is not null
+        defaultJobShouldBeFound("points.specified=true");
+
+        // Get all the jobList where points is null
+        defaultJobShouldNotBeFound("points.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllJobsByPointsIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        jobRepository.saveAndFlush(job);
+
+        // Get all the jobList where points greater than or equals to DEFAULT_POINTS
+        defaultJobShouldBeFound("points.greaterOrEqualThan=" + DEFAULT_POINTS);
+
+        // Get all the jobList where points greater than or equals to UPDATED_POINTS
+        defaultJobShouldNotBeFound("points.greaterOrEqualThan=" + UPDATED_POINTS);
+    }
+
+    @Test
+    @Transactional
+    public void getAllJobsByPointsIsLessThanSomething() throws Exception {
+        // Initialize the database
+        jobRepository.saveAndFlush(job);
+
+        // Get all the jobList where points less than or equals to DEFAULT_POINTS
+        defaultJobShouldNotBeFound("points.lessThan=" + DEFAULT_POINTS);
+
+        // Get all the jobList where points less than or equals to UPDATED_POINTS
+        defaultJobShouldBeFound("points.lessThan=" + UPDATED_POINTS);
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllJobsByDescriptionIsEqualToSomething() throws Exception {
+        // Initialize the database
+        jobRepository.saveAndFlush(job);
+
+        // Get all the jobList where description equals to DEFAULT_DESCRIPTION
+        defaultJobShouldBeFound("description.equals=" + DEFAULT_DESCRIPTION);
+
+        // Get all the jobList where description equals to UPDATED_DESCRIPTION
+        defaultJobShouldNotBeFound("description.equals=" + UPDATED_DESCRIPTION);
+    }
+
+    @Test
+    @Transactional
+    public void getAllJobsByDescriptionIsInShouldWork() throws Exception {
+        // Initialize the database
+        jobRepository.saveAndFlush(job);
+
+        // Get all the jobList where description in DEFAULT_DESCRIPTION or UPDATED_DESCRIPTION
+        defaultJobShouldBeFound("description.in=" + DEFAULT_DESCRIPTION + "," + UPDATED_DESCRIPTION);
+
+        // Get all the jobList where description equals to UPDATED_DESCRIPTION
+        defaultJobShouldNotBeFound("description.in=" + UPDATED_DESCRIPTION);
+    }
+
+    @Test
+    @Transactional
+    public void getAllJobsByDescriptionIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        jobRepository.saveAndFlush(job);
+
+        // Get all the jobList where description is not null
+        defaultJobShouldBeFound("description.specified=true");
+
+        // Get all the jobList where description is null
+        defaultJobShouldNotBeFound("description.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllJobsByEtatIsEqualToSomething() throws Exception {
+        // Initialize the database
+        jobRepository.saveAndFlush(job);
+
+        // Get all the jobList where etat equals to DEFAULT_ETAT
+        defaultJobShouldBeFound("etat.equals=" + DEFAULT_ETAT);
+
+        // Get all the jobList where etat equals to UPDATED_ETAT
+        defaultJobShouldNotBeFound("etat.equals=" + UPDATED_ETAT);
+    }
+
+    @Test
+    @Transactional
+    public void getAllJobsByEtatIsInShouldWork() throws Exception {
+        // Initialize the database
+        jobRepository.saveAndFlush(job);
+
+        // Get all the jobList where etat in DEFAULT_ETAT or UPDATED_ETAT
+        defaultJobShouldBeFound("etat.in=" + DEFAULT_ETAT + "," + UPDATED_ETAT);
+
+        // Get all the jobList where etat equals to UPDATED_ETAT
+        defaultJobShouldNotBeFound("etat.in=" + UPDATED_ETAT);
+    }
+
+    @Test
+    @Transactional
+    public void getAllJobsByEtatIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        jobRepository.saveAndFlush(job);
+
+        // Get all the jobList where etat is not null
+        defaultJobShouldBeFound("etat.specified=true");
+
+        // Get all the jobList where etat is null
+        defaultJobShouldNotBeFound("etat.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllJobsByTempsderealisationIsEqualToSomething() throws Exception {
+        // Initialize the database
+        jobRepository.saveAndFlush(job);
+
+        // Get all the jobList where tempsderealisation equals to DEFAULT_TEMPSDEREALISATION
+        defaultJobShouldBeFound("tempsderealisation.equals=" + DEFAULT_TEMPSDEREALISATION);
+
+        // Get all the jobList where tempsderealisation equals to UPDATED_TEMPSDEREALISATION
+        defaultJobShouldNotBeFound("tempsderealisation.equals=" + UPDATED_TEMPSDEREALISATION);
+    }
+
+    @Test
+    @Transactional
+    public void getAllJobsByTempsderealisationIsInShouldWork() throws Exception {
+        // Initialize the database
+        jobRepository.saveAndFlush(job);
+
+        // Get all the jobList where tempsderealisation in DEFAULT_TEMPSDEREALISATION or UPDATED_TEMPSDEREALISATION
+        defaultJobShouldBeFound("tempsderealisation.in=" + DEFAULT_TEMPSDEREALISATION + "," + UPDATED_TEMPSDEREALISATION);
+
+        // Get all the jobList where tempsderealisation equals to UPDATED_TEMPSDEREALISATION
+        defaultJobShouldNotBeFound("tempsderealisation.in=" + UPDATED_TEMPSDEREALISATION);
+    }
+
+    @Test
+    @Transactional
+    public void getAllJobsByTempsderealisationIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        jobRepository.saveAndFlush(job);
+
+        // Get all the jobList where tempsderealisation is not null
+        defaultJobShouldBeFound("tempsderealisation.specified=true");
+
+        // Get all the jobList where tempsderealisation is null
+        defaultJobShouldNotBeFound("tempsderealisation.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllJobsByJobcategorieIsEqualToSomething() throws Exception {
+        // Initialize the database
+        Jobcategorie jobcategorie = JobcategorieResourceIntTest.createEntity(em);
+        em.persist(jobcategorie);
+        em.flush();
+        job.setJobcategorie(jobcategorie);
+        jobRepository.saveAndFlush(job);
+        Long jobcategorieId = jobcategorie.getId();
+
+        // Get all the jobList where jobcategorie equals to jobcategorieId
+        defaultJobShouldBeFound("jobcategorieId.equals=" + jobcategorieId);
+
+        // Get all the jobList where jobcategorie equals to jobcategorieId + 1
+        defaultJobShouldNotBeFound("jobcategorieId.equals=" + (jobcategorieId + 1));
+    }
+
+    /**
+     * Executes the search, and checks that the default entity is returned
+     */
+    private void defaultJobShouldBeFound(String filter) throws Exception {
+        restJobMockMvc.perform(get("/api/jobs?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(job.getId().intValue())))
+            .andExpect(jsonPath("$.[*].titre").value(hasItem(DEFAULT_TITRE.toString())))
+            .andExpect(jsonPath("$.[*].points").value(hasItem(DEFAULT_POINTS)))
+            .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION.toString())))
+            .andExpect(jsonPath("$.[*].etat").value(hasItem(DEFAULT_ETAT.toString())))
+            .andExpect(jsonPath("$.[*].tempsderealisation").value(hasItem(DEFAULT_TEMPSDEREALISATION.toString())));
+    }
+
+    /**
+     * Executes the search, and checks that the default entity is not returned
+     */
+    private void defaultJobShouldNotBeFound(String filter) throws Exception {
+        restJobMockMvc.perform(get("/api/jobs?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$").isArray())
+            .andExpect(jsonPath("$").isEmpty());
+    }
+
 
     @Test
     @Transactional
@@ -255,8 +538,8 @@ public class JobResourceIntTest {
     @Transactional
     public void updateJob() throws Exception {
         // Initialize the database
-        jobRepository.saveAndFlush(job);
-        jobSearchRepository.save(job);
+        jobService.save(job);
+
         int databaseSizeBeforeUpdate = jobRepository.findAll().size();
 
         // Update the job
@@ -267,7 +550,8 @@ public class JobResourceIntTest {
             .titre(UPDATED_TITRE)
             .points(UPDATED_POINTS)
             .description(UPDATED_DESCRIPTION)
-            .etat(UPDATED_ETAT);
+            .etat(UPDATED_ETAT)
+            .tempsderealisation(UPDATED_TEMPSDEREALISATION);
 
         restJobMockMvc.perform(put("/api/jobs")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -282,6 +566,7 @@ public class JobResourceIntTest {
         assertThat(testJob.getPoints()).isEqualTo(UPDATED_POINTS);
         assertThat(testJob.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
         assertThat(testJob.getEtat()).isEqualTo(UPDATED_ETAT);
+        assertThat(testJob.getTempsderealisation()).isEqualTo(UPDATED_TEMPSDEREALISATION);
 
         // Validate the Job in Elasticsearch
         Job jobEs = jobSearchRepository.findOne(testJob.getId());
@@ -310,8 +595,8 @@ public class JobResourceIntTest {
     @Transactional
     public void deleteJob() throws Exception {
         // Initialize the database
-        jobRepository.saveAndFlush(job);
-        jobSearchRepository.save(job);
+        jobService.save(job);
+
         int databaseSizeBeforeDelete = jobRepository.findAll().size();
 
         // Get the job
@@ -332,8 +617,7 @@ public class JobResourceIntTest {
     @Transactional
     public void searchJob() throws Exception {
         // Initialize the database
-        jobRepository.saveAndFlush(job);
-        jobSearchRepository.save(job);
+        jobService.save(job);
 
         // Search the job
         restJobMockMvc.perform(get("/api/_search/jobs?query=id:" + job.getId()))
@@ -343,7 +627,8 @@ public class JobResourceIntTest {
             .andExpect(jsonPath("$.[*].titre").value(hasItem(DEFAULT_TITRE.toString())))
             .andExpect(jsonPath("$.[*].points").value(hasItem(DEFAULT_POINTS)))
             .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION.toString())))
-            .andExpect(jsonPath("$.[*].etat").value(hasItem(DEFAULT_ETAT.toString())));
+            .andExpect(jsonPath("$.[*].etat").value(hasItem(DEFAULT_ETAT.toString())))
+            .andExpect(jsonPath("$.[*].tempsderealisation").value(hasItem(DEFAULT_TEMPSDEREALISATION.toString())));
     }
 
     @Test

@@ -1,3 +1,4 @@
+
 {
     "muturamaApp": {
         "job" : {
@@ -20,6 +21,7 @@
             "points": "Points",
             "description": "Description",
             "etat": "Etat",
+            "tempsderealisation": "Tempsderealisation",
             "jobcategorie": "Jobcategorie"
         }
     }

@@ -5,15 +5,17 @@
         .module('muturamaApp')
         .controller('UtilisateurDialogController', UtilisateurDialogController);
 
-    UtilisateurDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', '$q', 'entity', 'Utilisateur', 'User'];
+    UtilisateurDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', '$q', 'DataUtils', 'entity', 'Utilisateur', 'User'];
 
-    function UtilisateurDialogController ($timeout, $scope, $stateParams, $uibModalInstance, $q, entity, Utilisateur, User) {
+    function UtilisateurDialogController ($timeout, $scope, $stateParams, $uibModalInstance, $q, DataUtils, entity, Utilisateur, User) {
         var vm = this;
 
         vm.utilisateur = entity;
         vm.clear = clear;
         vm.datePickerOpenStatus = {};
         vm.openCalendar = openCalendar;
+        vm.byteSize = DataUtils.byteSize;
+        vm.openFile = DataUtils.openFile;
         vm.save = save;
         vm.users = User.query();
 
@@ -45,6 +47,20 @@
         }
 
         vm.datePickerOpenStatus.datedenaissance = false;
+
+        vm.setAvatar = function ($file, utilisateur) {
+            if ($file && $file.$error === 'pattern') {
+                return;
+            }
+            if ($file) {
+                DataUtils.toBase64($file, function(base64Data) {
+                    $scope.$apply(function() {
+                        utilisateur.avatar = base64Data;
+                        utilisateur.avatarContentType = $file.type;
+                    });
+                });
+            }
+        };
 
         function openCalendar (date) {
             vm.datePickerOpenStatus[date] = true;

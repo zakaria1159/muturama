@@ -2,12 +2,12 @@ package com.sobexim.muturamaapp.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import com.sobexim.muturamaapp.domain.Job;
-
-import com.sobexim.muturamaapp.repository.JobRepository;
-import com.sobexim.muturamaapp.repository.search.JobSearchRepository;
+import com.sobexim.muturamaapp.service.JobService;
 import com.sobexim.muturamaapp.web.rest.errors.BadRequestAlertException;
 import com.sobexim.muturamaapp.web.rest.util.HeaderUtil;
 import com.sobexim.muturamaapp.web.rest.util.PaginationUtil;
+import com.sobexim.muturamaapp.service.dto.JobCriteria;
+import com.sobexim.muturamaapp.service.JobQueryService;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,7 +24,6 @@ import java.net.URISyntaxException;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
@@ -40,13 +39,13 @@ public class JobResource {
 
     private static final String ENTITY_NAME = "job";
 
-    private final JobRepository jobRepository;
+    private final JobService jobService;
 
-    private final JobSearchRepository jobSearchRepository;
+    private final JobQueryService jobQueryService;
 
-    public JobResource(JobRepository jobRepository, JobSearchRepository jobSearchRepository) {
-        this.jobRepository = jobRepository;
-        this.jobSearchRepository = jobSearchRepository;
+    public JobResource(JobService jobService, JobQueryService jobQueryService) {
+        this.jobService = jobService;
+        this.jobQueryService = jobQueryService;
     }
 
     /**
@@ -63,8 +62,7 @@ public class JobResource {
         if (job.getId() != null) {
             throw new BadRequestAlertException("A new job cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        Job result = jobRepository.save(job);
-        jobSearchRepository.save(result);
+        Job result = jobService.save(job);
         return ResponseEntity.created(new URI("/api/jobs/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -86,8 +84,7 @@ public class JobResource {
         if (job.getId() == null) {
             return createJob(job);
         }
-        Job result = jobRepository.save(job);
-        jobSearchRepository.save(result);
+        Job result = jobService.save(job);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, job.getId().toString()))
             .body(result);
@@ -97,13 +94,14 @@ public class JobResource {
      * GET  /jobs : get all the jobs.
      *
      * @param pageable the pagination information
+     * @param criteria the criterias which the requested entities should match
      * @return the ResponseEntity with status 200 (OK) and the list of jobs in body
      */
     @GetMapping("/jobs")
     @Timed
-    public ResponseEntity<List<Job>> getAllJobs(Pageable pageable) {
-        log.debug("REST request to get a page of Jobs");
-        Page<Job> page = jobRepository.findAll(pageable);
+    public ResponseEntity<List<Job>> getAllJobs(JobCriteria criteria, Pageable pageable) {
+        log.debug("REST request to get Jobs by criteria: {}", criteria);
+        Page<Job> page = jobQueryService.findByCriteria(criteria, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/jobs");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
@@ -118,7 +116,7 @@ public class JobResource {
     @Timed
     public ResponseEntity<Job> getJob(@PathVariable Long id) {
         log.debug("REST request to get Job : {}", id);
-        Job job = jobRepository.findOne(id);
+        Job job = jobService.findOne(id);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(job));
     }
 
@@ -132,8 +130,7 @@ public class JobResource {
     @Timed
     public ResponseEntity<Void> deleteJob(@PathVariable Long id) {
         log.debug("REST request to delete Job : {}", id);
-        jobRepository.delete(id);
-        jobSearchRepository.delete(id);
+        jobService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 
@@ -149,7 +146,7 @@ public class JobResource {
     @Timed
     public ResponseEntity<List<Job>> searchJobs(@RequestParam String query, Pageable pageable) {
         log.debug("REST request to search for a page of Jobs for query {}", query);
-        Page<Job> page = jobSearchRepository.search(queryStringQuery(query), pageable);
+        Page<Job> page = jobService.search(query, pageable);
         HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/jobs");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }

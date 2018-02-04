@@ -37,6 +37,7 @@
                 <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.transition()">
                     <th jh-sort-by="id"><span data-translate="global.field.id">ID</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th jh-sort-by="datedenaissance"><span data-translate="muturamaApp.utilisateur.datedenaissance">Datedenaissance</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="avatar"><span data-translate="muturamaApp.utilisateur.avatar">Avatar</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th jh-sort-by="utilisateuruser.login"><span data-translate="muturamaApp.utilisateur.utilisateuruser">Utilisateuruser</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th></th>
                 </tr>
@@ -45,6 +46,12 @@
                 <tr ng-repeat="utilisateur in vm.utilisateurs track by utilisateur.id">
                     <td><a ui-sref="utilisateur-detail({id:utilisateur.id})">{{utilisateur.id}}</a></td>
                         <td>{{utilisateur.datedenaissance | date:'mediumDate'}}</td>
+                    <td>
+                        <a ng-if="utilisateur.avatar" ng-click="vm.openFile(utilisateur.avatarContentType, utilisateur.avatar)">
+                            <img data-ng-src="{{'data:' + utilisateur.avatarContentType + ';base64,' + utilisateur.avatar}}" style="max-height: 30px;" alt="utilisateur image"/>
+                        </a>
+                        <span ng-if="utilisateur.avatar">{{utilisateur.avatarContentType}}, {{vm.byteSize(utilisateur.avatar)}}</span>
+                    </td>
                     <td>
                         {{utilisateur.utilisateuruser.login}}
                     </td>

@@ -9,7 +9,8 @@
         </div>
 
 
-      <div class="col-sm-2"><a href="/users" class="pull-right"><img title="profile image" class="img-circle img-responsive" src="http://www.rlsandbox.com/img/profile.jpg"></a>
+      <div class="col-sm-2" ng-repeat="utilisateur in vm.utilisateurs | filter: vm.settingsAccount.login" ><a href="" class="pull-right"><img img data-ng-src="{{'data:' + utilisateur.avatarContentType + ';base64,' + utilisateur.avatar}}"  class="img-circle img-responsive "></a>
+           
    
         </div>
         
@@ -103,7 +104,9 @@
         </div>
     </div>
     
+    
      <div class="col-sm-8" style="" ng-repeat="utilisateur in vm.utilisateurs | filter: vm.settingsAccount.login ">
+    
             <div class="panel panel-default">
                 <div class="panel-heading">Date de naissance</div>
                 <div class="panel-body"> {{utilisateur.datedenaissance | date:'mediumDate'}}
@@ -111,6 +114,7 @@
 
                 </div>
             </div>
+            
             <div class="panel panel-default target">
                 <div class="panel-heading" contenteditable="false">Historique</div>
                 <div class="panel-body">

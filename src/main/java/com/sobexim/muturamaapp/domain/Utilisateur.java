@@ -27,8 +27,15 @@ public class Utilisateur implements Serializable {
     private Long id;
 
     @NotNull
-    @Column(name = "datedenaissance", nullable = true)
+    @Column(name = "datedenaissance", nullable = false)
     private LocalDate datedenaissance;
+
+    @Lob
+    @Column(name = "avatar")
+    private byte[] avatar;
+
+    @Column(name = "avatar_content_type")
+    private String avatarContentType;
 
     @OneToOne
     @JoinColumn(unique = true)
@@ -54,6 +61,32 @@ public class Utilisateur implements Serializable {
 
     public void setDatedenaissance(LocalDate datedenaissance) {
         this.datedenaissance = datedenaissance;
+    }
+
+    public byte[] getAvatar() {
+        return avatar;
+    }
+
+    public Utilisateur avatar(byte[] avatar) {
+        this.avatar = avatar;
+        return this;
+    }
+
+    public void setAvatar(byte[] avatar) {
+        this.avatar = avatar;
+    }
+
+    public String getAvatarContentType() {
+        return avatarContentType;
+    }
+
+    public Utilisateur avatarContentType(String avatarContentType) {
+        this.avatarContentType = avatarContentType;
+        return this;
+    }
+
+    public void setAvatarContentType(String avatarContentType) {
+        this.avatarContentType = avatarContentType;
     }
 
     public User getUtilisateuruser() {
@@ -95,6 +128,8 @@ public class Utilisateur implements Serializable {
         return "Utilisateur{" +
             "id=" + getId() +
             ", datedenaissance='" + getDatedenaissance() + "'" +
+            ", avatar='" + getAvatar() + "'" +
+            ", avatarContentType='" + getAvatarContentType() + "'" +
             "}";
     }
 }

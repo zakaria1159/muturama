@@ -125,6 +125,8 @@
                         entity: function () {
                             return {
                                 datedenaissance: null,
+                                avatar: null,
+                                avatarContentType: null,
                                 id: null
                             };
                         }
