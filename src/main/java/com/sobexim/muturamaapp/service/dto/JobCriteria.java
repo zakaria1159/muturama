@@ -40,6 +40,10 @@ public class JobCriteria implements Serializable {
 
     private LongFilter jobcategorieId;
 
+    private LongFilter jobtoutilisateurId;
+
+    private LongFilter postulantId;
+
     public JobCriteria() {
     }
 
@@ -99,6 +103,22 @@ public class JobCriteria implements Serializable {
         this.jobcategorieId = jobcategorieId;
     }
 
+    public LongFilter getJobtoutilisateurId() {
+        return jobtoutilisateurId;
+    }
+
+    public void setJobtoutilisateurId(LongFilter jobtoutilisateurId) {
+        this.jobtoutilisateurId = jobtoutilisateurId;
+    }
+
+    public LongFilter getPostulantId() {
+        return postulantId;
+    }
+
+    public void setPostulantId(LongFilter postulantId) {
+        this.postulantId = postulantId;
+    }
+
     @Override
     public String toString() {
         return "JobCriteria{" +
@@ -109,6 +129,8 @@ public class JobCriteria implements Serializable {
                 (etat != null ? "etat=" + etat + ", " : "") +
                 (tempsderealisation != null ? "tempsderealisation=" + tempsderealisation + ", " : "") +
                 (jobcategorieId != null ? "jobcategorieId=" + jobcategorieId + ", " : "") +
+                (jobtoutilisateurId != null ? "jobtoutilisateurId=" + jobtoutilisateurId + ", " : "") +
+                (postulantId != null ? "postulantId=" + postulantId + ", " : "") +
             "}";
     }
 

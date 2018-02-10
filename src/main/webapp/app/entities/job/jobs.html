@@ -42,6 +42,7 @@
                     <th jh-sort-by="etat"><span data-translate="muturamaApp.job.etat">Etat</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th jh-sort-by="tempsderealisation"><span data-translate="muturamaApp.job.tempsderealisation">Tempsderealisation</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th jh-sort-by="jobcategorie.titre"><span data-translate="muturamaApp.job.jobcategorie">Jobcategorie</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="jobtoutilisateur.utilisateuruser"><span data-translate="muturamaApp.job.jobtoutilisateur">Jobtoutilisateur</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th></th>
                 </tr>
             </thead>
@@ -55,6 +56,9 @@
                     <td>{{job.tempsderealisation}}</td>
                     <td>
                         <a ui-sref="jobcategorie-detail({id:job.jobcategorie.id})">{{job.jobcategorie.titre}}</a>
+                    </td>
+                    <td>
+                        <a ui-sref="utilisateur-detail({id:job.jobtoutilisateur.id})">{{job.jobtoutilisateur.utilisateuruser}}</a>
                     </td>
                     <td class="text-right">
                         <div class="btn-group flex-btn-group-container">

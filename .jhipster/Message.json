@@ -1,0 +1,29 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipName": "emeteur",
+            "otherEntityName": "utilisateur",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "utilisateuruser"
+        },
+        {
+            "relationshipName": "recepteur",
+            "otherEntityName": "utilisateur",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "utilisateuruser"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "contenu",
+            "fieldType": "String"
+        }
+    ],
+    "changelogDate": "20180204224004",
+    "dto": "no",
+    "service": "no",
+    "entityTableName": "message",
+    "jpaMetamodelFiltering": false,
+    "pagination": "infinite-scroll"
+}

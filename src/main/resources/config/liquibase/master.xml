@@ -10,9 +10,11 @@
     <include file="config/liquibase/changelog/20180129122210_added_entity_Utilisateur.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20180129232620_added_entity_Jobcategorie.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20180129233152_added_entity_Job.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20180204224004_added_entity_Message.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
     <include file="config/liquibase/changelog/20180129005427_added_entity_constraints_Agent.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20180129122210_added_entity_constraints_Utilisateur.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20180129233152_added_entity_constraints_Job.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20180204224004_added_entity_constraints_Message.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
 </databaseChangeLog>

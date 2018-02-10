@@ -8,6 +8,8 @@ import javax.validation.constraints.*;
 
 import org.springframework.data.elasticsearch.annotations.Document;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Objects;
 
 /**
@@ -46,6 +48,16 @@ public class Job implements Serializable {
     @ManyToOne(optional = false)
     @NotNull
     private Jobcategorie jobcategorie;
+
+    @ManyToOne
+    private Utilisateur jobtoutilisateur;
+
+    @ManyToMany
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    @JoinTable(name = "job_postulant",
+               joinColumns = @JoinColumn(name="jobs_id", referencedColumnName="id"),
+               inverseJoinColumns = @JoinColumn(name="postulants_id", referencedColumnName="id"))
+    private Set<Utilisateur> postulants = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -132,6 +144,44 @@ public class Job implements Serializable {
 
     public void setJobcategorie(Jobcategorie jobcategorie) {
         this.jobcategorie = jobcategorie;
+    }
+
+    public Utilisateur getJobtoutilisateur() {
+        return jobtoutilisateur;
+    }
+
+    public Job jobtoutilisateur(Utilisateur utilisateur) {
+        this.jobtoutilisateur = utilisateur;
+        return this;
+    }
+
+    public void setJobtoutilisateur(Utilisateur utilisateur) {
+        this.jobtoutilisateur = utilisateur;
+    }
+
+    public Set<Utilisateur> getPostulants() {
+        return postulants;
+    }
+
+    public Job postulants(Set<Utilisateur> utilisateurs) {
+        this.postulants = utilisateurs;
+        return this;
+    }
+
+    public Job addPostulant(Utilisateur utilisateur) {
+        this.postulants.add(utilisateur);
+        utilisateur.getPostulants().add(this);
+        return this;
+    }
+
+    public Job removePostulant(Utilisateur utilisateur) {
+        this.postulants.remove(utilisateur);
+        utilisateur.getPostulants().remove(this);
+        return this;
+    }
+
+    public void setPostulants(Set<Utilisateur> utilisateurs) {
+        this.postulants = utilisateurs;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 

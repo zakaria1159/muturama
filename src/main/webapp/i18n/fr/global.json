@@ -12,6 +12,7 @@
                 "utilisateur": "Utilisateur",
                 "jobcategorie": "Jobcategorie",
                 "job": "Job",
+                "message": "Message",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {

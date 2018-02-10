@@ -14,5 +14,22 @@
                                  referencedColumnNames="id"
                                  referencedTableName="jobcategorie"/>
 
+        <addForeignKeyConstraint baseColumnNames="jobtoutilisateur_id"
+                                 baseTableName="job"
+                                 constraintName="fk_job_jobtoutilisateur_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="utilisateur"/>
+
+        <addForeignKeyConstraint baseColumnNames="jobs_id"
+                                 baseTableName="job_postulant"
+                                 constraintName="fk_job_postulant_jobs_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="job"/>
+        <addForeignKeyConstraint baseColumnNames="postulants_id"
+                                 baseTableName="job_postulant"
+                                 constraintName="fk_job_postulant_postulants_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="utilisateur"/>
+        
     </changeSet>
 </databaseChangeLog>

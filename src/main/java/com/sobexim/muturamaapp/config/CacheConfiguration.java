@@ -47,6 +47,15 @@ public class CacheConfiguration {
             cm.createCache(com.sobexim.muturamaapp.domain.Utilisateur.class.getName(), jcacheConfiguration);
             cm.createCache(com.sobexim.muturamaapp.domain.Jobcategorie.class.getName(), jcacheConfiguration);
             cm.createCache(com.sobexim.muturamaapp.domain.Job.class.getName(), jcacheConfiguration);
+            cm.createCache(com.sobexim.muturamaapp.domain.Message.class.getName(), jcacheConfiguration);
+            cm.createCache(com.sobexim.muturamaapp.domain.Message.class.getName() + ".emeteurs", jcacheConfiguration);
+            cm.createCache(com.sobexim.muturamaapp.domain.Message.class.getName() + ".utilisateurs", jcacheConfiguration);
+            cm.createCache(com.sobexim.muturamaapp.domain.Utilisateur.class.getName() + ".messages", jcacheConfiguration);
+            cm.createCache(com.sobexim.muturamaapp.domain.Utilisateur.class.getName() + ".emeteurs", jcacheConfiguration);
+            cm.createCache(com.sobexim.muturamaapp.domain.Utilisateur.class.getName() + ".utilisateurtojobs", jcacheConfiguration);
+            cm.createCache(com.sobexim.muturamaapp.domain.Utilisateur.class.getName() + ".postulants", jcacheConfiguration);
+            cm.createCache(com.sobexim.muturamaapp.domain.Job.class.getName() + ".postulants", jcacheConfiguration);
+            cm.createCache(com.sobexim.muturamaapp.domain.Job.class.getName() + ".ns", jcacheConfiguration);
             // jhipster-needle-ehcache-add-entry
         };
     }

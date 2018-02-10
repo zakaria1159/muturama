@@ -8,6 +8,25 @@
             "otherEntityField": "login",
             "ownerSide": true,
             "otherEntityRelationshipName": "utilisateur"
+        },
+        {
+            "relationshipName": "message",
+            "otherEntityName": "message",
+            "relationshipType": "one-to-many",
+            "otherEntityRelationshipName": "emeteur"
+        },
+        {
+            "relationshipName": "utilisateurtojob",
+            "otherEntityName": "job",
+            "relationshipType": "one-to-many",
+            "otherEntityRelationshipName": "jobtoutilisateur"
+        },
+        {
+            "relationshipName": "postulant",
+            "otherEntityName": "job",
+            "relationshipType": "many-to-many",
+            "ownerSide": false,
+            "otherEntityRelationshipName": "postulant"
         }
     ],
     "fields": [

@@ -9,6 +9,20 @@
                 "required"
             ],
             "otherEntityField": "titre"
+        },
+        {
+            "relationshipName": "jobtoutilisateur",
+            "otherEntityName": "utilisateur",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "utilisateuruser"
+        },
+        {
+            "relationshipName": "postulant",
+            "otherEntityName": "utilisateur",
+            "relationshipType": "many-to-many",
+            "otherEntityField": "utilisateuruser",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "postulant"
         }
     ],
     "fields": [

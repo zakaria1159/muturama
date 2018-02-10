@@ -4,6 +4,8 @@ import com.sobexim.muturamaapp.MuturamaApp;
 
 import com.sobexim.muturamaapp.domain.Job;
 import com.sobexim.muturamaapp.domain.Jobcategorie;
+import com.sobexim.muturamaapp.domain.Utilisateur;
+import com.sobexim.muturamaapp.domain.Utilisateur;
 import com.sobexim.muturamaapp.repository.JobRepository;
 import com.sobexim.muturamaapp.service.JobService;
 import com.sobexim.muturamaapp.repository.search.JobSearchRepository;
@@ -497,6 +499,44 @@ public class JobResourceIntTest {
 
         // Get all the jobList where jobcategorie equals to jobcategorieId + 1
         defaultJobShouldNotBeFound("jobcategorieId.equals=" + (jobcategorieId + 1));
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllJobsByJobtoutilisateurIsEqualToSomething() throws Exception {
+        // Initialize the database
+        Utilisateur jobtoutilisateur = UtilisateurResourceIntTest.createEntity(em);
+        em.persist(jobtoutilisateur);
+        em.flush();
+        job.setJobtoutilisateur(jobtoutilisateur);
+        jobRepository.saveAndFlush(job);
+        Long jobtoutilisateurId = jobtoutilisateur.getId();
+
+        // Get all the jobList where jobtoutilisateur equals to jobtoutilisateurId
+        defaultJobShouldBeFound("jobtoutilisateurId.equals=" + jobtoutilisateurId);
+
+        // Get all the jobList where jobtoutilisateur equals to jobtoutilisateurId + 1
+        defaultJobShouldNotBeFound("jobtoutilisateurId.equals=" + (jobtoutilisateurId + 1));
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllJobsByPostulantIsEqualToSomething() throws Exception {
+        // Initialize the database
+        Utilisateur postulant = UtilisateurResourceIntTest.createEntity(em);
+        em.persist(postulant);
+        em.flush();
+        job.addPostulant(postulant);
+        jobRepository.saveAndFlush(job);
+        Long postulantId = postulant.getId();
+
+        // Get all the jobList where postulant equals to postulantId
+        defaultJobShouldBeFound("postulantId.equals=" + postulantId);
+
+        // Get all the jobList where postulant equals to postulantId + 1
+        defaultJobShouldNotBeFound("postulantId.equals=" + (postulantId + 1));
     }
 
     /**

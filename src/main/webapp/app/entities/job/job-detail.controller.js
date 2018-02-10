@@ -5,9 +5,9 @@
         .module('muturamaApp')
         .controller('JobDetailController', JobDetailController);
 
-    JobDetailController.$inject = ['$scope', '$rootScope', '$stateParams', 'previousState', 'entity', 'Job', 'Jobcategorie'];
+    JobDetailController.$inject = ['$scope', '$rootScope', '$stateParams', 'previousState', 'entity', 'Job', 'Jobcategorie', 'Utilisateur'];
 
-    function JobDetailController($scope, $rootScope, $stateParams, previousState, entity, Job, Jobcategorie) {
+    function JobDetailController($scope, $rootScope, $stateParams, previousState, entity, Job, Jobcategorie, Utilisateur) {
         var vm = this;
 
         vm.job = entity;

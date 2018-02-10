@@ -77,6 +77,16 @@
                 This field is required.
             </p>
         </div>
+        <div class="form-group">
+            <label data-translate="muturamaApp.job.jobtoutilisateur" for="field_jobtoutilisateur">Jobtoutilisateur</label>
+            <select class="form-control" id="field_jobtoutilisateur" name="jobtoutilisateur" ng-model="vm.job.jobtoutilisateur" ng-options="utilisateur as utilisateur.utilisateuruser for utilisateur in vm.utilisateurs track by utilisateur.id">
+                <option value=""></option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label data-translate="muturamaApp.job.postulant" for="field_postulant">Postulant</label>
+            <select class="form-control" id="field_postulant" multiple name="postulant" ng-model="vm.job.postulants" ng-options="utilisateur as utilisateur.utilisateuruser for utilisateur in vm.utilisateurs track by utilisateur.id"></select>
+        </div>
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.clear()">

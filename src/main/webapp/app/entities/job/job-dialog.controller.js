@@ -5,15 +5,16 @@
         .module('muturamaApp')
         .controller('JobDialogController', JobDialogController);
 
-    JobDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'entity', 'Job', 'Jobcategorie'];
+    JobDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'entity', 'Job', 'Jobcategorie', 'Utilisateur'];
 
-    function JobDialogController ($timeout, $scope, $stateParams, $uibModalInstance, entity, Job, Jobcategorie) {
+    function JobDialogController ($timeout, $scope, $stateParams, $uibModalInstance, entity, Job, Jobcategorie, Utilisateur) {
         var vm = this;
 
         vm.job = entity;
         vm.clear = clear;
         vm.save = save;
         vm.jobcategories = Jobcategorie.query();
+        vm.utilisateurs = Utilisateur.query();
 
         $timeout(function (){
             angular.element('.form-group:eq(1)>input').focus();

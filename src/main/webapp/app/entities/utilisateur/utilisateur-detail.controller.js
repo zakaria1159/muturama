@@ -5,9 +5,9 @@
         .module('muturamaApp')
         .controller('UtilisateurDetailController', UtilisateurDetailController);
 
-    UtilisateurDetailController.$inject = ['$scope', '$rootScope', '$stateParams', 'previousState', 'DataUtils', 'entity', 'Utilisateur', 'User'];
+    UtilisateurDetailController.$inject = ['$scope', '$rootScope', '$stateParams', 'previousState', 'DataUtils', 'entity', 'Utilisateur', 'User', 'Message', 'Job'];
 
-    function UtilisateurDetailController($scope, $rootScope, $stateParams, previousState, DataUtils, entity, Utilisateur, User) {
+    function UtilisateurDetailController($scope, $rootScope, $stateParams, previousState, DataUtils, entity, Utilisateur, User, Message, Job) {
         var vm = this;
 
         vm.utilisateur = entity;

@@ -28,6 +28,16 @@
         <dd>
             <a ui-sref="jobcategorie-detail({id:vm.job.jobcategorie.id})">{{vm.job.jobcategorie.titre}}</a>
         </dd>
+        <dt><span data-translate="muturamaApp.job.jobtoutilisateur">Jobtoutilisateur</span></dt>
+        <dd>
+            <a ui-sref="utilisateur-detail({id:vm.job.jobtoutilisateur.id})">{{vm.job.jobtoutilisateur.utilisateuruser}}</a>
+        </dd>
+        <dt><span data-translate="muturamaApp.job.postulant">Postulant</span></dt>
+        <dd>
+            <span ng-repeat="postulant in vm.job.postulants">
+                <a ui-sref="utilisateur-detail({id: postulant.id})">{{postulant.utilisateuruser}}</a>{{$last ? '' : ', '}}
+            </span>
+        </dd>
     </dl>
 
     <button type="submit"

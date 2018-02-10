@@ -94,6 +94,12 @@ public class JobQueryService extends QueryService<Job> {
             if (criteria.getJobcategorieId() != null) {
                 specification = specification.and(buildReferringEntitySpecification(criteria.getJobcategorieId(), Job_.jobcategorie, Jobcategorie_.id));
             }
+            if (criteria.getJobtoutilisateurId() != null) {
+                specification = specification.and(buildReferringEntitySpecification(criteria.getJobtoutilisateurId(), Job_.jobtoutilisateur, Utilisateur_.id));
+            }
+            if (criteria.getPostulantId() != null) {
+                specification = specification.and(buildReferringEntitySpecification(criteria.getPostulantId(), Job_.postulants, Utilisateur_.id));
+            }
         }
         return specification;
     }

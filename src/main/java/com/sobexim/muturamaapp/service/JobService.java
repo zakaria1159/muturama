@@ -65,7 +65,7 @@ public class JobService {
     @Transactional(readOnly = true)
     public Job findOne(Long id) {
         log.debug("Request to get Job : {}", id);
-        return jobRepository.findOne(id);
+        return jobRepository.findOneWithEagerRelationships(id);
     }
 
     /**
